@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Microsoft.Playwright.NUnit;
+using Microsoft.Playwright;
 using System.Threading.Tasks;
 
 namespace PlaywrightDemo
@@ -14,11 +15,17 @@ namespace PlaywrightDemo
 
         [Test]
         public async Task Test1()
-        {          
-            await Page.ClickAsync("text='Login'");
+        {   
+
+            var lnkLogin = Page.Locator("text='Login'");
+            await lnkLogin.ClickAsync();       
+            //await Page.ClickAsync("text='Login'");
             await Page.FillAsync("#UserName", "admin");
             await Page.FillAsync("#Password", "password");
-            await Page.ClickAsync("text='Log in'");
+
+            var loginbtn = Page.Locator("input", new PageLocatorOptions{HasTextString="Log in"});
+            await loginbtn.ClickAsync();
+            //await Page.ClickAsync("text='Log in'");
             await Expect(Page.Locator("text='Employee Details'")).ToBeVisibleAsync();
         }
     }
